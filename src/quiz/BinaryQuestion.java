@@ -2,9 +2,11 @@ package quiz;
 
 import java.util.Scanner;
 
-public class BinaryQuiz extends AbstractQuiz<Boolean> {
+public class BinaryQuestion extends AbstractQuestion<Boolean> {
 
-    public BinaryQuiz(int id, String question, Boolean correctAnswer) {
+    public String type = "Binary";
+
+    public BinaryQuestion(int id, String question, Boolean correctAnswer) {
         super(id, question, correctAnswer);
     }
 

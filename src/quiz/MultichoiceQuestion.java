@@ -3,11 +3,11 @@ package quiz;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class MultichoiceQuiz extends AbstractQuiz<Integer> {
+public class MultichoiceQuestion extends AbstractQuestion<Integer> {
 
     private ArrayList<String> answers;
 
-    public MultichoiceQuiz(int id, String question, Integer correctAnswer, ArrayList<String> answers) {
+    public MultichoiceQuestion(int id, String question, Integer correctAnswer, ArrayList<String> answers) {
         super(id, question, correctAnswer);
         this.answers = answers;
     }

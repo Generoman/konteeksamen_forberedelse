@@ -2,7 +2,7 @@ package quiz;
 
 import java.util.Scanner;
 
-public interface GenericQuiz {
+public interface GenericQuestion {
 
     void checkAnswer(Scanner consoleScanner);
 
