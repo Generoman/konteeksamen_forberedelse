@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public interface GenericQuestion {
 
-    void checkAnswer(Scanner consoleScanner);
+    int checkAnswer(Scanner consoleScanner, int score);
 
     void showQuestion();
 }

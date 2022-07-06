@@ -11,7 +11,7 @@ public class BinaryQuestion extends AbstractQuestion<Boolean> {
     }
 
     @Override
-    public void checkAnswer(Scanner consoleScanner) {
+    public int checkAnswer(Scanner consoleScanner, int score) {
         String userAnswer = consoleScanner.nextLine();
 
         boolean boolAnswer;
@@ -24,9 +24,12 @@ public class BinaryQuestion extends AbstractQuestion<Boolean> {
 
         if (boolAnswer == correctAnswer) {
             System.out.println("Correct!");
+            score++;
         } else {
             System.out.println("Wrong!");
         }
+
+        return score;
     }
 
     @Override

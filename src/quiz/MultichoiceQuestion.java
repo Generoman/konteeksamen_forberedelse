@@ -13,16 +13,19 @@ public class MultichoiceQuestion extends AbstractQuestion<Integer> {
     }
 
     @Override
-    public void checkAnswer(Scanner consoleScanner) {
+    public int checkAnswer(Scanner consoleScanner, int score) {
         String userAnswer = consoleScanner.nextLine();
 
         int convertedUserAnswer = Integer.parseInt(userAnswer) -1;
 
         if (convertedUserAnswer == correctAnswer) {
             System.out.println("Correct!");
+            score++;
         } else {
             System.out.println("Wrong!");
         }
+
+        return score;
     }
 
     @Override

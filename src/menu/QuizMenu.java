@@ -15,6 +15,7 @@ public class QuizMenu extends SimpleMenu {
 
     @Override
     public void printMenuToConsole() {
+        System.out.println(name);
         System.out.println("1 - Take quiz");
         System.out.println("2 - Scoreboard");
         System.out.println("0 - Back to previous menu");
@@ -22,16 +23,44 @@ public class QuizMenu extends SimpleMenu {
 
     @Override
     public void chooseMenuOption(Scanner consoleScanner) {
-        // TODO: Implement method
-        super.chooseMenuOption(consoleScanner);
+        switch (consoleScanner.nextLine()) {
+            case "1":
+                answerQuestion(consoleScanner);
+                break;
+            case "2":
+                // TODO: implement scoreboard stuff
+                break;
+            case "0":
+                return;
+            default:
+                System.out.println("Please choose a valid option");
+        }
     }
 
-    private void answerQuesstion(Scanner consoleScanner) {
+    private void answerQuestion(Scanner consoleScanner) {
 
         HashSet<GenericQuestion> randomlyChosenQuestions = new HashSet<>();
 
         while (randomlyChosenQuestions.size() < 4) {
             randomlyChosenQuestions.add(retrieveRandomQuestion());
+        }
+
+        int score = 0;
+
+        for (GenericQuestion question :
+                randomlyChosenQuestions) {
+            question.showQuestion();
+            score = question.checkAnswer(consoleScanner, score);
+            System.out.println("Current score: " + score);
+        }
+
+        System.out.println("You answered " + score + "/4 correctly");
+        if (score == 4) {
+            System.out.println("Congratulations! You got everything right!");
+        } else if (score > 0) {
+            System.out.println("Better luck next time!");
+        } else {
+            System.out.println("Wow, you really suck!");
         }
     }
 

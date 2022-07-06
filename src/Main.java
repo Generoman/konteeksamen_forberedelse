@@ -1,8 +1,10 @@
 import menu.MainMenu;
+import menu.QuizMenu;
 import menu.SimpleMenu;
 import quiz.AbstractQuestion;
 import quiz.BinaryQuestion;
 import quiz.GenericQuestion;
+import utils.MenuFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,23 +14,17 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-//        SimpleMenu sub1 = new SimpleMenu("sub1");
-//        SimpleMenu sub2 = new SimpleMenu("sub2");
-//
-//        ArrayList<SimpleMenu> menuOptions = new ArrayList<>();
-//        menuOptions.add(sub1);
-//        menuOptions.add(sub2);
-//
-//        MainMenu sup = new MainMenu(menuOptions);
-//
-//        Scanner consoleScanner = new Scanner(System.in);
-//
-//        while (sup.isRunning) {
-//            sup.printMenuToConsole();
-//            sup.chooseMenuOption(consoleScanner);
-//        }
-//
-//        System.out.println("We hope to see you again!");
+
+        MainMenu sup = MenuFactory.generateFullMenu();
+
+        Scanner consoleScanner = new Scanner(System.in);
+
+        while (sup.isRunning) {
+            sup.printMenuToConsole();
+            sup.chooseMenuOption(consoleScanner);
+        }
+
+        System.out.println("We hope to see you again!");
 
 
 //        HashSet-greier
@@ -66,5 +62,11 @@ public class Main {
 //        System.out.println(castedQuestion.getQuestion());
 //
 //        System.out.println(testMap.size());
+
+
+//        private/public-greier
+//        QuizMenu menu = new QuizMenu("test", null);
+//        menu.retrieveRandomQuestion(); // virker IKKE pga private
+//        menu.printMenuToConsole(); // virker pga public
     }
 }
