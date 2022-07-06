@@ -22,11 +22,17 @@ public class QuizMenu extends SimpleMenu {
 
     @Override
     public void chooseMenuOption(Scanner consoleScanner) {
+        // TODO: Implement method
         super.chooseMenuOption(consoleScanner);
     }
 
-    private void answerQuesstion() {
-        GenericQuestion randomQuestion = retrieveRandomQuestion();
+    private void answerQuesstion(Scanner consoleScanner) {
+
+        HashSet<GenericQuestion> randomlyChosenQuestions = new HashSet<>();
+
+        while (randomlyChosenQuestions.size() < 4) {
+            randomlyChosenQuestions.add(retrieveRandomQuestion());
+        }
     }
 
     private GenericQuestion retrieveRandomQuestion() {
