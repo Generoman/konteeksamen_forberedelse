@@ -16,7 +16,7 @@ public class QuizMenu extends SimpleMenu {
     @Override
     public void printMenuToConsole() {
         System.out.println(name);
-        System.out.println("1 - Take quiz");
+        System.out.println("1 - Take a quiz");
         System.out.println("2 - Scoreboard");
         System.out.println("0 - Back to previous menu");
     }
