@@ -26,7 +26,7 @@ public class QuizMenu extends SimpleMenu {
     }
 
     private void answerQuesstion() {
-
+        GenericQuestion randomQuestion = retrieveRandomQuestion();
     }
 
     private GenericQuestion retrieveRandomQuestion() {
