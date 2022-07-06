@@ -49,8 +49,7 @@ public class SimpleMenu implements ConsoleMenu {
     @Override
     public void chooseMenuOption(Scanner consoleScanner) {
         String userChoice = consoleScanner.nextLine();
-        if (Objects.equals(userChoice, "0")) {
-        } else {
+        if (!Objects.equals(userChoice, "0")) {
             int convertedChoice = Integer.parseInt(userChoice) - 1;
             SimpleMenu sub = options.get(convertedChoice);
             sub.printMenuToConsole();
