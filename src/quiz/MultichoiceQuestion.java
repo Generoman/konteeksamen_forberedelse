@@ -1,6 +1,9 @@
 package quiz;
 
+import utils.UtilData;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class MultichoiceQuestion extends AbstractQuestion<Integer> {
@@ -14,9 +17,20 @@ public class MultichoiceQuestion extends AbstractQuestion<Integer> {
 
     @Override
     public int checkAnswer(Scanner consoleScanner, int score) {
+
         String userAnswer = consoleScanner.nextLine();
 
+        if (!Arrays.asList(UtilData.DIGITS).contains(userAnswer) || userAnswer.equals("0")) {
+            System.out.println("Please choose a valid menu option");
+            return checkAnswer(consoleScanner, score);
+        }
+
         int convertedUserAnswer = Integer.parseInt(userAnswer) -1;
+
+        if (convertedUserAnswer >= answers.size()) {
+            System.out.println("Please choose a valid menu option");
+            return checkAnswer(consoleScanner, score);
+        }
 
         if (convertedUserAnswer == correctAnswer) {
             System.out.println("Correct!");

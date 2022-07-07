@@ -1,6 +1,10 @@
 package menu;
 
+import utils.QuizPlayer;
+import utils.UtilData;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -8,6 +12,7 @@ public class SimpleMenu implements ConsoleMenu {
 
     // Fields
 
+    protected SimpleMenu previousMenu;
     protected String name;
     protected ArrayList<SimpleMenu> options;
 
@@ -30,12 +35,17 @@ public class SimpleMenu implements ConsoleMenu {
         return name;
     }
 
+    public void setPreviousMenu(SimpleMenu previousMenu) {
+        this.previousMenu = previousMenu;
+    }
+
 
     // Methods
 
     @Override
     public void printMenuToConsole() {
         System.out.println(name);
+        System.out.println("Player: " + QuizPlayer.getInstance().getName());
         if (options != null) {
             for (int i = 0; i < options.size(); i++) {
                 System.out.println(i + 1 + " - " + options.get(i).getName());
@@ -47,13 +57,26 @@ public class SimpleMenu implements ConsoleMenu {
     }
 
     @Override
-    public void chooseMenuOption(Scanner consoleScanner) {
+    public ConsoleMenu chooseMenuOption(Scanner consoleScanner) {
+
         String userChoice = consoleScanner.nextLine();
-        if (!Objects.equals(userChoice, "0")) {
-            int convertedChoice = Integer.parseInt(userChoice) - 1;
-            SimpleMenu sub = options.get(convertedChoice);
-            sub.printMenuToConsole();
-            sub.chooseMenuOption(consoleScanner);
+
+        if (!Arrays.asList(UtilData.DIGITS).contains(userChoice)) {
+            System.out.println("Please choose a valid menu option");
+            return this;
         }
+
+        if (userChoice.equals("0")) {
+            return previousMenu;
+        }
+
+        int indexChoice = Integer.parseInt(userChoice) - 1;
+
+        if (indexChoice >= options.size()) {
+            System.out.println("Please choose a valid menu option");
+            return this;
+        }
+
+        return options.get(indexChoice);
     }
 }

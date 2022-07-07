@@ -6,5 +6,5 @@ public interface ConsoleMenu {
 
     void printMenuToConsole();
 
-    void chooseMenuOption(Scanner consoleScanner);
+    ConsoleMenu chooseMenuOption(Scanner consoleScanner);
 }

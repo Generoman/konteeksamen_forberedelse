@@ -1,6 +1,8 @@
 package menu;
 
+import quiz.BinaryQuestion;
 import quiz.GenericQuestion;
+import utils.QuizPlayer;
 
 import java.util.*;
 
@@ -16,24 +18,26 @@ public class QuizMenu extends SimpleMenu {
     @Override
     public void printMenuToConsole() {
         System.out.println(name);
+        System.out.println("Player: " + QuizPlayer.getInstance().getName());
         System.out.println("1 - Take quiz");
         System.out.println("2 - Scoreboard");
         System.out.println("0 - Back to previous menu");
     }
 
     @Override
-    public void chooseMenuOption(Scanner consoleScanner) {
+    public ConsoleMenu chooseMenuOption(Scanner consoleScanner) {
         switch (consoleScanner.nextLine()) {
             case "1":
                 answerQuestion(consoleScanner);
-                break;
+                return previousMenu.previousMenu;
             case "2":
                 // TODO: implement scoreboard stuff
-                break;
+                return previousMenu.previousMenu;
             case "0":
-                return;
+                return previousMenu;
             default:
                 System.out.println("Please choose a valid option");
+                return this;
         }
     }
 
@@ -61,6 +65,16 @@ public class QuizMenu extends SimpleMenu {
             System.out.println("Better luck next time!");
         } else {
             System.out.println("Wow, you really suck!");
+        }
+
+        if (retrieveRandomQuestion() instanceof BinaryQuestion) {
+            if (QuizPlayer.getInstance().getBinScore() < score) {
+                QuizPlayer.getInstance().setBinScore(score);
+            }
+        } else {
+            if (QuizPlayer.getInstance().getMcqScore() < score) {
+                QuizPlayer.getInstance().setMcqScore(score);
+            }
         }
     }
 

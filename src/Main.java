@@ -1,4 +1,5 @@
 import menu.MainMenu;
+import menu.MenuHandler;
 import menu.QuizMenu;
 import menu.SimpleMenu;
 import quiz.AbstractQuestion;
@@ -15,16 +16,13 @@ public class Main {
 
     public static void main(String[] args) {
 
-        MainMenu sup = MenuFactory.generateFullMenu();
+        SimpleMenu mainMenu = MenuFactory.generateFullMenu();
 
         Scanner consoleScanner = new Scanner(System.in);
 
-        while (sup.isRunning) {
-            sup.printMenuToConsole();
-            sup.chooseMenuOption(consoleScanner);
-        }
+        MenuHandler menuHandler = new MenuHandler(mainMenu);
 
-        System.out.println("We hope to see you again!!!");
+        menuHandler.runMenu(consoleScanner);
 
 
 //        HashSet-greier
