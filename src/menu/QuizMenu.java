@@ -2,6 +2,7 @@ package menu;
 
 import quiz.BinaryQuestion;
 import quiz.GenericQuestion;
+import utils.DummyDataScoreboard;
 import utils.QuizPlayer;
 
 import java.util.*;
@@ -31,8 +32,8 @@ public class QuizMenu extends SimpleMenu {
                 answerQuestion(consoleScanner);
                 return previousMenu.previousMenu;
             case "2":
-                // TODO: implement scoreboard stuff
-                return previousMenu.previousMenu;
+                DummyDataScoreboard.printScoreboardToConsole(retrieveRandomQuestion());
+                return this;
             case "0":
                 return previousMenu;
             default:
