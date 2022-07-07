@@ -11,7 +11,7 @@ import quiz.MultichoiceQuestion;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-public class MenuFactory {
+public class DummyDataMenuFactory {
 
     public static SimpleMenu generateFullMenu() {
 

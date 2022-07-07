@@ -1,22 +1,14 @@
-import menu.MainMenu;
 import menu.MenuHandler;
-import menu.QuizMenu;
 import menu.SimpleMenu;
-import quiz.AbstractQuestion;
-import quiz.BinaryQuestion;
-import quiz.GenericQuestion;
-import utils.MenuFactory;
+import utils.DummyDataMenuFactory;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Scanner;
 
-public class Main {
+public class QuizGame {
 
     public static void main(String[] args) {
 
-        SimpleMenu mainMenu = MenuFactory.generateFullMenu();
+        SimpleMenu mainMenu = DummyDataMenuFactory.generateFullMenu();
 
         Scanner consoleScanner = new Scanner(System.in);
 
