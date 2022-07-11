@@ -3,3 +3,4 @@
 /out/
 /.idea/
 /konteeksamen.iml
+/src/utils/SecretConnectionData.java

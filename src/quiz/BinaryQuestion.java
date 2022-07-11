@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class BinaryQuestion extends AbstractQuestion<Boolean> {
 
-    public String type = "Binary";
+    // public String type = "Binary";
 
     public BinaryQuestion(int id, String question, Boolean correctAnswer) {
         super(id, question, correctAnswer);
