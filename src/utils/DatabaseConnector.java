@@ -18,8 +18,8 @@ public class DatabaseConnector {
         if (dataSource == null) {
             dataSource = new MysqlDataSource();
             dataSource.setURL("jdbc:mysql://localhost:3306/quizgame");
-            dataSource.setUser(SecretConnectionData.username); // brukernavn fra en klasse som ikke er med i GitHub
-            dataSource.setPassword(SecretConnectionData.password); // passord fra en klasse som ikke er med i GitHub
+            dataSource.setUser(SecretConnectionData.username); // brukernavn fra en klasse som ikke er med i Git
+            dataSource.setPassword(SecretConnectionData.password); // passord fra en klasse som ikke er med i Git
         }
 
         return dataSource;
