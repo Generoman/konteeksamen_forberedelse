@@ -1,35 +1,13 @@
-import menu.MenuHandler;
 import menu.SimpleMenu;
-import utils.DatabaseConnector;
-import utils.DummyDataMenuFactory;
-import utils.QuizPlayer;
-
-import javax.xml.crypto.Data;
-import java.sql.SQLException;
-import java.util.ArrayList;
+import menu.utils.MenuFactory;
+import menu.utils.MenuHandler;
 import java.util.Scanner;
 
 public class QuizGame {
 
     public static void main(String[] args) {
 
-        /* Testkode for databasegreier
-
-        DatabaseConnector dbConnector = new DatabaseConnector();
-
-        ArrayList<QuizPlayer> scoreboard;
-
-        try {
-            scoreboard = dbConnector.retrieveAllPlayers();
-            System.out.println("Connected to database");
-        } catch (SQLException e) {
-            System.out.println("No database connection");
-            e.printStackTrace();
-        }
-
-        */
-
-        SimpleMenu mainMenu = DummyDataMenuFactory.generateFullMenu();
+        SimpleMenu mainMenu = MenuFactory.generateFullMenu();
 
         Scanner consoleScanner = new Scanner(System.in);
 

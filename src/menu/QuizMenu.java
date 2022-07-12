@@ -1,10 +1,13 @@
 package menu;
 
-import quiz.BinaryQuestion;
-import quiz.GenericQuestion;
-import utils.DummyDataScoreboard;
-import utils.QuizPlayer;
+import database.DatabaseConnector;
+import players.CurrentPlayer;
+import questions.BinaryQuestion;
+import questions.GenericQuestion;
+import players.DummyDataScoreboard;
+import players.QuizPlayer;
 
+import java.sql.SQLException;
 import java.util.*;
 
 public class QuizMenu extends SimpleMenu {
@@ -19,7 +22,7 @@ public class QuizMenu extends SimpleMenu {
     @Override
     public void printMenuToConsole() {
         System.out.println(name);
-        System.out.println("Player: " + QuizPlayer.getInstance().getName());
+        System.out.println("Player: " + CurrentPlayer.getInstance().getName());
         System.out.println("1 - Take quiz");
         System.out.println("2 - Scoreboard");
         System.out.println("0 - Back to previous menu");
@@ -32,7 +35,7 @@ public class QuizMenu extends SimpleMenu {
                 answerQuestion(consoleScanner);
                 return previousMenu.previousMenu;
             case "2":
-                DummyDataScoreboard.printScoreboardToConsole(retrieveRandomQuestion());
+                printScoreBoardToConsole();
                 return this;
             case "0":
                 return previousMenu;
@@ -61,11 +64,11 @@ public class QuizMenu extends SimpleMenu {
 
         System.out.println("You answered " + score + "/4 correctly");
         if (score == 4) {
-            System.out.println("Congratulations! You got everything right!");
+            System.out.println("Congratulations! You got everything right!\n");
         } else if (score > 0) {
-            System.out.println("Better luck next time!");
+            System.out.println("Better luck next time!\n");
         } else {
-            System.out.println("Wow, you really suck!");
+            System.out.println("Wow, you really suck!\n");
         }
 
         if (retrieveRandomQuestion() instanceof BinaryQuestion) {
@@ -101,5 +104,26 @@ public class QuizMenu extends SimpleMenu {
         }
 
         return randomQuestion;
+    }
+
+    private void printScoreBoardToConsole() {
+        try {
+            ArrayList<QuizPlayer> players = DatabaseConnector.retrieveAllPlayers();
+            if (retrieveRandomQuestion() instanceof BinaryQuestion) {
+                for (QuizPlayer player :
+                        players) {
+                    System.out.println(player.getName() + " " + player.getBinScore());
+                }
+            } else {
+                for (QuizPlayer player :
+                        players) {
+                    System.out.println(player.getName() + " " + player.getMcqScore());
+                }
+            }
+            System.out.println();
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+            System.out.println("Score board not accessible. Database connection failed");
+        }
     }
 }

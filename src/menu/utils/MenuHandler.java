@@ -1,4 +1,6 @@
-package menu;
+package menu.utils;
+
+import menu.ConsoleMenu;
 
 import java.util.Scanner;
 

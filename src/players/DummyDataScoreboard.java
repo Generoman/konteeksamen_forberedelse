@@ -1,7 +1,7 @@
-package utils;
+package players;
 
-import quiz.BinaryQuestion;
-import quiz.GenericQuestion;
+import questions.BinaryQuestion;
+import questions.GenericQuestion;
 
 public class DummyDataScoreboard {
 

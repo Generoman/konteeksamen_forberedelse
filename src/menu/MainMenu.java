@@ -1,6 +1,7 @@
 package menu;
 
-import utils.QuizPlayer;
+import players.CurrentPlayer;
+import players.QuizPlayer;
 
 import java.util.ArrayList;
 
@@ -13,7 +14,7 @@ public class MainMenu extends SimpleMenu {
     @Override
     public void printMenuToConsole() {
         System.out.println(name);
-        System.out.println("Player: " + QuizPlayer.getInstance().getName());
+        System.out.println("Player: " + CurrentPlayer.getInstance().getName());
         for (int i = 0; i < options.size(); i++) {
             System.out.println(i + 1 + " - " + options.get(i).getName());
         }

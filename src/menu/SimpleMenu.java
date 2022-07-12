@@ -1,11 +1,11 @@
 package menu;
 
-import utils.QuizPlayer;
+import players.CurrentPlayer;
+import players.QuizPlayer;
 import utils.UtilData;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Objects;
 import java.util.Scanner;
 
 public class SimpleMenu implements ConsoleMenu {
@@ -45,7 +45,7 @@ public class SimpleMenu implements ConsoleMenu {
     @Override
     public void printMenuToConsole() {
         System.out.println(name);
-        System.out.println("Player: " + QuizPlayer.getInstance().getName());
+        System.out.println("Player: " + CurrentPlayer.getInstance().getName());
         if (options != null) {
             for (int i = 0; i < options.size(); i++) {
                 System.out.println(i + 1 + " - " + options.get(i).getName());

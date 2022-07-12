@@ -1,4 +1,4 @@
-package quiz;
+package questions;
 
 import utils.UtilData;
 

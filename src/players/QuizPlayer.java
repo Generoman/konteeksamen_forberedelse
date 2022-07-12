@@ -1,4 +1,4 @@
-package utils;
+package players;
 
 public class QuizPlayer {
 
@@ -10,6 +10,13 @@ public class QuizPlayer {
     private static QuizPlayer INSTANCE;
 
     public QuizPlayer() {}
+
+    public QuizPlayer(int id, String name, int binScore, int mcqScore) {
+        this.id = id;
+        this.name = name;
+        this.binScore = binScore;
+        this.mcqScore = mcqScore;
+    }
 
     public int getId() {
         return id;

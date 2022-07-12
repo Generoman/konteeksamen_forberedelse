@@ -1,7 +1,10 @@
 package menu;
 
-import utils.QuizPlayer;
+import database.DatabaseConnector;
+import players.CurrentPlayer;
+import players.QuizPlayer;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -20,7 +23,26 @@ public class LoginMenu extends SimpleMenu {
     @Override
     public ConsoleMenu chooseMenuOption(Scanner consoleScanner) {
 
-        QuizPlayer.getInstance().setName(consoleScanner.nextLine());
+        CurrentPlayer.getInstance().setName(consoleScanner.nextLine());
+
+        try {
+
+            QuizPlayer existingPlayer = DatabaseConnector.retrievePlayerByName(CurrentPlayer.getInstance().getName());
+
+            if (existingPlayer == null) {
+                DatabaseConnector.saveNewPlayer(CurrentPlayer.getInstance());
+                System.out.println("Ooh, NEW BLOOD! Welcome, " + CurrentPlayer.getInstance().getName());
+            } else {
+                CurrentPlayer.getInstance().setId(existingPlayer.getId());
+                CurrentPlayer.getInstance().setBinScore(existingPlayer.getBinScore());
+                CurrentPlayer.getInstance().setMcqScore(existingPlayer.getMcqScore());
+                System.out.println("Welcome back, " + existingPlayer.getName());
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Database connection failed. You will not be able to save your score.");
+        }
 
         return options.get(0);
     }
