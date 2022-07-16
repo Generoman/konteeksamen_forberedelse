@@ -7,9 +7,11 @@ public class QuizPlayer {
     private int binScore;
     private int mcqScore;
 
-    private static QuizPlayer INSTANCE;
-
     public QuizPlayer() {}
+
+    public QuizPlayer(String name) {
+        this.name = name;
+    }
 
     public QuizPlayer(int id, String name, int binScore, int mcqScore) {
         this.id = id;
@@ -48,12 +50,5 @@ public class QuizPlayer {
 
     public void setMcqScore(int mcqScore) {
         this.mcqScore = mcqScore;
-    }
-
-    public static QuizPlayer getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new QuizPlayer();
-        }
-        return INSTANCE;
     }
 }

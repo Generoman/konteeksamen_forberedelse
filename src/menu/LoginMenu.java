@@ -1,6 +1,6 @@
 package menu;
 
-import database.DatabaseConnector;
+import dao.PlayerDao;
 import players.CurrentPlayer;
 import players.QuizPlayer;
 
@@ -10,8 +10,11 @@ import java.util.Scanner;
 
 public class LoginMenu extends SimpleMenu {
 
-    public LoginMenu(String name, ArrayList<SimpleMenu> options) {
-        super(name, options);
+    private final PlayerDao playerDao;
+
+    public LoginMenu(ArrayList<SimpleMenu> options, PlayerDao playerDao) {
+        super("Login", options);
+        this.playerDao = playerDao;
     }
 
     @Override
@@ -23,27 +26,28 @@ public class LoginMenu extends SimpleMenu {
     @Override
     public ConsoleMenu chooseMenuOption(Scanner consoleScanner) {
 
-        CurrentPlayer.getInstance().setName(consoleScanner.nextLine());
+        String playerName = consoleScanner.nextLine();
 
         try {
-
-            QuizPlayer existingPlayer = DatabaseConnector.retrievePlayerByName(CurrentPlayer.getInstance().getName());
-
-            if (existingPlayer == null) {
-                DatabaseConnector.saveNewPlayer(CurrentPlayer.getInstance());
-                System.out.println("Ooh, NEW BLOOD! Welcome, " + CurrentPlayer.getInstance().getName());
-            } else {
-                CurrentPlayer.getInstance().setId(existingPlayer.getId());
-                CurrentPlayer.getInstance().setBinScore(existingPlayer.getBinScore());
-                CurrentPlayer.getInstance().setMcqScore(existingPlayer.getMcqScore());
-                System.out.println("Welcome back, " + existingPlayer.getName());
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("Database connection failed. You will not be able to save your score.");
+            QuizPlayer existingPlayer = playerDao.retrieveByName(playerName);
+            if (existingPlayer == null) throw new SQLException();
+            CurrentPlayer.set(existingPlayer);
+            System.out.println("Welcome back, " + existingPlayer.getName());
+        } catch (SQLException exception) {
+            System.out.println("We have a new player!");
+            System.out.println("Welcome, " + playerName);
         }
 
-        return options.get(0);
+        try {
+            QuizPlayer newPlayer = playerDao.save(new QuizPlayer(playerName));
+            CurrentPlayer.set(newPlayer);
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+            CurrentPlayer.set(new QuizPlayer(playerName));
+            System.out.println("Database connection failed");
+            System.out.println("You will not be able to save your score");
+        }
+
+        return menuOptions.get(0);
     }
 }

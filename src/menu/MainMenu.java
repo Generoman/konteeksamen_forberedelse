@@ -1,7 +1,5 @@
 package menu;
 
-import players.CurrentPlayer;
-
 import java.util.ArrayList;
 
 public class MainMenu extends SimpleMenu {
@@ -13,8 +11,8 @@ public class MainMenu extends SimpleMenu {
     @Override
     public void printMenuToConsole() {
         printMenuHeader();
-        for (int i = 0; i < options.size(); i++) {
-            System.out.println(i + 1 + " - " + options.get(i).getName());
+        for (int i = 0; i < menuOptions.size(); i++) {
+            System.out.println(i + 1 + " - " + menuOptions.get(i).getName());
         }
         System.out.println("0 - Quit");
     }

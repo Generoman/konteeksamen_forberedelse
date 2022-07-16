@@ -1,6 +1,8 @@
 package menu.utils;
 
-import database.DatabaseConnector;
+import dao.BinaryQuestionDao;
+import dao.MultichoiceQuestionDao;
+import dao.PlayerDao;
 import menu.LoginMenu;
 import menu.MainMenu;
 import menu.QuizMenu;
@@ -9,33 +11,53 @@ import questions.BinaryQuestion;
 import questions.GenericQuestion;
 import questions.MultichoiceQuestion;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashSet;
 
-public class MenuFactory {
+public class MenuGenerator {
 
     public static SimpleMenu generateFullMenu() {
 
-        HashSet<GenericQuestion> mcqQuestionSet = DatabaseConnector.retrieveAllMultichoiceQuestions();
-        if (mcqQuestionSet == null) {
-            System.out.println("You will be playing this game with hardcoded multichoice questions");
+        BinaryQuestionDao binaryQuestionDao = null;
+        MultichoiceQuestionDao multichoiceQuestionDao= null;
+        PlayerDao playerDao = null;
+
+        try {
+            binaryQuestionDao = new BinaryQuestionDao();
+            multichoiceQuestionDao = new MultichoiceQuestionDao();
+            playerDao = new PlayerDao();
+        } catch (IOException exception) {
+            System.out.println("Properties file not found");
+            exception.printStackTrace();
+        }
+
+        ArrayList<GenericQuestion> binQuestionSet;
+        ArrayList<GenericQuestion> mcqQuestionSet;
+
+        if (binaryQuestionDao != null && multichoiceQuestionDao != null && playerDao != null) {
+            try {
+                binQuestionSet = binaryQuestionDao.retrieveAll();
+                mcqQuestionSet = multichoiceQuestionDao.retrieveAll();
+            } catch (SQLException exception) {
+                System.out.println("Could not connect to database");
+                exception.printStackTrace();
+                System.out.println("You will be playing this game with hardcoded questions");
+                System.out.println("Scoreboard will not be available");
+                binQuestionSet = generateDummyBinaryQuestions();
+                mcqQuestionSet = generateDummyMultichoiceQuestions();
+            }
+        } else {
+            System.out.println("You will be playing this game with hardcoded questions");
+            System.out.println("Scoreboard will not be available");
+            binQuestionSet = generateDummyBinaryQuestions();
             mcqQuestionSet = generateDummyMultichoiceQuestions();
         }
 
-        HashSet<GenericQuestion> binQuestionSet;
-        try {
-            binQuestionSet = DatabaseConnector.retrieveAllBinaryQuestions();
-        } catch (SQLException exception) {
-            exception.printStackTrace();
-            System.out.println("You will be playing this game with hardcoded binary questions");
-            binQuestionSet = generateDummyBinaryQuestions();
-        }
 
+        QuizMenu multichoiceQuiz = new QuizMenu("Multichoice Quiz", mcqQuestionSet, playerDao);
 
-        QuizMenu multichoiceQuiz = new QuizMenu("Multichoice Quiz", mcqQuestionSet);
-
-        QuizMenu binaryQuiz = new QuizMenu("Binary Quiz", binQuestionSet);
+        QuizMenu binaryQuiz = new QuizMenu("Binary Quiz", binQuestionSet, playerDao);
 
         ArrayList<SimpleMenu> quizOptions = new ArrayList<>();
         quizOptions.add(binaryQuiz);
@@ -54,17 +76,17 @@ public class MenuFactory {
         ArrayList<SimpleMenu> loginOptions = new ArrayList<>();
         loginOptions.add(mainMenu);
 
-        return new LoginMenu("Login", loginOptions);
+        return new LoginMenu(loginOptions, playerDao);
     }
 
-    private static HashSet<GenericQuestion> generateDummyBinaryQuestions() {
+    private static ArrayList<GenericQuestion> generateDummyBinaryQuestions() {
 
         BinaryQuestion bin1 = new BinaryQuestion(1, "Are we there yet?", false);
         BinaryQuestion bin2 = new BinaryQuestion(2, "Yes or no?", true);
         BinaryQuestion bin3 = new BinaryQuestion(3, "No or yes?", false);
         BinaryQuestion bin4 = new BinaryQuestion(4, "Are you sure?", true);
 
-        HashSet<GenericQuestion> binQuestionSet = new HashSet<>();
+        ArrayList<GenericQuestion> binQuestionSet = new ArrayList<>();
         binQuestionSet.add(bin1);
         binQuestionSet.add(bin2);
         binQuestionSet.add(bin3);
@@ -73,7 +95,7 @@ public class MenuFactory {
         return binQuestionSet;
     }
 
-    private static HashSet<GenericQuestion> generateDummyMultichoiceQuestions() {
+    private static ArrayList<GenericQuestion> generateDummyMultichoiceQuestions() {
 
         ArrayList<String> answers = new ArrayList<>();
         answers.add("a");
@@ -86,7 +108,7 @@ public class MenuFactory {
         MultichoiceQuestion mcq3 = new MultichoiceQuestion(3, "Choose 'c':", 2, answers);
         MultichoiceQuestion mcq4 = new MultichoiceQuestion(4, "Choose 'd':", 3, answers);
 
-        HashSet<GenericQuestion> mcqQuestionSet = new HashSet<>();
+        ArrayList<GenericQuestion> mcqQuestionSet = new ArrayList<>();
         mcqQuestionSet.add(mcq1);
         mcqQuestionSet.add(mcq2);
         mcqQuestionSet.add(mcq3);

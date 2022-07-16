@@ -1,5 +1,5 @@
 import menu.SimpleMenu;
-import menu.utils.MenuFactory;
+import menu.utils.MenuGenerator;
 import menu.utils.MenuHandler;
 import java.util.Scanner;
 
@@ -7,11 +7,11 @@ public class QuizGame {
 
     public static void main(String[] args) {
 
-        SimpleMenu mainMenu = MenuFactory.generateFullMenu();
+        SimpleMenu menu = MenuGenerator.generateFullMenu();
 
         Scanner consoleScanner = new Scanner(System.in);
 
-        MenuHandler menuHandler = new MenuHandler(mainMenu);
+        MenuHandler menuHandler = new MenuHandler(menu);
 
         menuHandler.runMenu(consoleScanner);
 

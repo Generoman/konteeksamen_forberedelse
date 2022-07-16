@@ -2,12 +2,16 @@ package players;
 
 public class CurrentPlayer {
 
-    private static QuizPlayer INSTANCE;
+    private static QuizPlayer PLAYER_INSTANCE;
 
-    public static QuizPlayer getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new QuizPlayer();
+    public static QuizPlayer get() {
+        if (PLAYER_INSTANCE == null) {
+            PLAYER_INSTANCE = new QuizPlayer();
         }
-        return INSTANCE;
+        return PLAYER_INSTANCE;
+    }
+
+    public static void set(QuizPlayer player) {
+        PLAYER_INSTANCE = player;
     }
 }

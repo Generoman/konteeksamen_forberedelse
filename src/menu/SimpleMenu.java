@@ -1,7 +1,6 @@
 package menu;
 
 import players.CurrentPlayer;
-import players.QuizPlayer;
 import utils.UtilData;
 
 import java.util.ArrayList;
@@ -14,14 +13,14 @@ public class SimpleMenu implements ConsoleMenu {
 
     protected SimpleMenu previousMenu;
     protected String name;
-    protected ArrayList<SimpleMenu> options;
+    protected ArrayList<SimpleMenu> menuOptions;
 
 
     // Constructors
 
     public SimpleMenu(String name, ArrayList<SimpleMenu> options) {
         this.name = name;
-        this.options = options;
+        this.menuOptions = options;
     }
 
     public SimpleMenu(String name) {
@@ -45,9 +44,9 @@ public class SimpleMenu implements ConsoleMenu {
     @Override
     public void printMenuToConsole() {
         printMenuHeader();
-        if (options != null) {
-            for (int i = 0; i < options.size(); i++) {
-                System.out.println(i + 1 + " - " + options.get(i).getName());
+        if (menuOptions != null) {
+            for (int i = 0; i < menuOptions.size(); i++) {
+                System.out.println(i + 1 + " - " + menuOptions.get(i).getName());
             }
         } else {
             System.out.println("No menu options found");
@@ -71,16 +70,16 @@ public class SimpleMenu implements ConsoleMenu {
 
         int indexChoice = Integer.parseInt(userChoice) - 1;
 
-        if (indexChoice >= options.size()) {
+        if (indexChoice >= menuOptions.size()) {
             System.out.println("Please choose a valid menu option");
             return this;
         }
 
-        return options.get(indexChoice);
+        return menuOptions.get(indexChoice);
     }
 
     protected void printMenuHeader() {
         System.out.println(name);
-        System.out.println("Player: " + CurrentPlayer.getInstance().getName());
+        System.out.println("Player: " + CurrentPlayer.get().getName());
     }
 }

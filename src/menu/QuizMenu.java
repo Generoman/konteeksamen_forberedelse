@@ -1,10 +1,9 @@
 package menu;
 
-import database.DatabaseConnector;
+import dao.PlayerDao;
 import players.CurrentPlayer;
 import questions.BinaryQuestion;
 import questions.GenericQuestion;
-import players.DummyDataScoreboard;
 import players.QuizPlayer;
 
 import java.sql.SQLException;
@@ -12,11 +11,13 @@ import java.util.*;
 
 public class QuizMenu extends SimpleMenu {
 
-    private final HashSet<GenericQuestion> questionSet;
+    private final ArrayList<GenericQuestion> questionSet;
+    private final PlayerDao playerDao;
 
-    public QuizMenu(String name, HashSet<GenericQuestion> questionSet) {
+    public QuizMenu(String name, ArrayList<GenericQuestion> questionSet, PlayerDao playerDao) {
         super(name);
         this.questionSet = questionSet;
+        this.playerDao = playerDao;
     }
 
     @Override
@@ -70,45 +71,24 @@ public class QuizMenu extends SimpleMenu {
             System.out.println("Wow, you really suck!\n");
         }
 
-        if (retrieveRandomQuestion() instanceof BinaryQuestion) {
-            if (QuizPlayer.getInstance().getBinScore() < score) {
-                QuizPlayer.getInstance().setBinScore(score);
-            }
-        } else {
-            if (QuizPlayer.getInstance().getMcqScore() < score) {
-                QuizPlayer.getInstance().setMcqScore(score);
-            }
+
+        if (CurrentPlayer.get().getBinScore() < score || CurrentPlayer.get().getMcqScore() < score) {
+            CurrentPlayer.get().setBinScore(score);
+            CurrentPlayer.get().setMcqScore(score);
+            updateScoreboard();
         }
     }
 
     private GenericQuestion retrieveRandomQuestion() {
-
-        Random random = new Random();
-
-        int randNum = random.nextInt(questionSet.size());
-
-        Iterator<GenericQuestion> iterator = questionSet.iterator();
-
-        int currentIndex = 0;
-
-        GenericQuestion randomQuestion = null;
-
-        while (iterator.hasNext()) {
-
-            randomQuestion = iterator.next();
-
-            if (currentIndex == randNum) return randomQuestion;
-
-            currentIndex++;
-        }
-
-        return randomQuestion;
+        int range = questionSet.size();
+        int randomNumber = (int) (Math.random() * range);
+        return questionSet.get(randomNumber);
     }
 
     private void printScoreBoardToConsole() {
         try {
-            ArrayList<QuizPlayer> players = DatabaseConnector.retrieveAllPlayers();
-            if (retrieveRandomQuestion() instanceof BinaryQuestion) {
+            ArrayList<QuizPlayer> players = playerDao.retrieveAll();
+            if (questionSet.get(0) instanceof BinaryQuestion) {
                 for (QuizPlayer player :
                         players) {
                     System.out.println(player.getName() + " " + player.getBinScore());
@@ -122,7 +102,17 @@ public class QuizMenu extends SimpleMenu {
             System.out.println();
         } catch (SQLException exception) {
             exception.printStackTrace();
-            System.out.println("Score board not accessible. Database connection failed");
+            System.out.println("Database connection failed");
+            System.out.println("Scoreboard not accessible");
+        }
+    }
+
+    private void updateScoreboard() {
+        try {
+            playerDao.update(CurrentPlayer.get());
+        } catch (SQLException exception) {
+            System.out.println("Database connection failed");
+            System.out.println("Scoreboard cannot be updated");
         }
     }
 }
