@@ -2,9 +2,7 @@ package utils;
 
 import database.DatabaseConnector;
 import players.QuizPlayer;
-import questions.BinaryQuestion;
 import questions.GenericQuestion;
-import questions.MultichoiceQuestion;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

@@ -44,8 +44,7 @@ public class SimpleMenu implements ConsoleMenu {
 
     @Override
     public void printMenuToConsole() {
-        System.out.println(name);
-        System.out.println("Player: " + CurrentPlayer.getInstance().getName());
+        printMenuHeader();
         if (options != null) {
             for (int i = 0; i < options.size(); i++) {
                 System.out.println(i + 1 + " - " + options.get(i).getName());
@@ -78,5 +77,10 @@ public class SimpleMenu implements ConsoleMenu {
         }
 
         return options.get(indexChoice);
+    }
+
+    protected void printMenuHeader() {
+        System.out.println(name);
+        System.out.println("Player: " + CurrentPlayer.getInstance().getName());
     }
 }
