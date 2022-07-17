@@ -1,9 +1,9 @@
 insert into players (name, binary_score, multichoice_score)
-VALUES ('Roman', 3, 3);
+VALUES ('Person1', 3, 3);
 insert into players (name, binary_score, multichoice_score)
-VALUES ('Marie', 4, 4);
+VALUES ('Person2', 4, 4);
 insert into players (name, binary_score, multichoice_score)
-VALUES ('Bogdan', 0, 0);
+VALUES ('Person3', 0, 0);
 
 insert into binary_questions (question, correct_answer)
 VALUES ('Are we there yet?', false);
